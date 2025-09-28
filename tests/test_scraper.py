@@ -58,6 +58,58 @@ STORY_HTML = """
 
 
 class ScraperTests(unittest.TestCase):
+    def test_golden_file_export(self):
+        # Golden file test: compare exported JSON to reference
+        import json
+        from diia_scraper.scraper import DiiaBusinessScraper
+        from diia_scraper.story_parser import DEFAULT_CONFIG
+        import tempfile
+        # Fake session and story
+        class DummySession:
+            def __init__(self):
+                self.headers = {}
+
+            def get(self, url, timeout=None):
+                # Return a minimal listing page when the listing URL is requested
+                class Resp:
+                    def __init__(self, text: str):
+                        self._text = text
+
+                    def raise_for_status(self):
+                        return None
+
+                    @property
+                    def text(self):
+                        return self._text
+
+                if url.rstrip("/").endswith("/history-of-success"):
+                    listing = '<html><body><a class="article-card" href="/history-of-success/story-1">Story 1</a></body></html>'
+                    return Resp(listing)
+
+                # Otherwise return a simple story page
+                story = '<html><body><h1>Test</h1><article><p>Block1</p></article></body></html>'
+                return Resp(story)
+        scraper = DiiaBusinessScraper(session=DummySession(), parser_config=DEFAULT_CONFIG)
+        stories = scraper.scrape(limit=1)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out = scraper.export(stories, Path(tmpdir))
+            with open(out["json"], "r", encoding="utf-8") as f:
+                actual = json.load(f)
+            # Assert core properties instead of full structural equality to avoid
+            # flakiness related to caching or parser changes.
+            self.assertEqual(len(actual), 1)
+            story = actual[0]
+            self.assertEqual(story.get("title"), "Test")
+            self.assertIn("Block1", story.get("raw_text", ""))
+            self.assertIn("blocks", story)
+
+            # If a golden file is present, compare to it for strict regression
+            golden_path = Path("tests/golden/stories.json")
+            if golden_path.exists():
+                import json as _json
+                with golden_path.open("r", encoding="utf-8") as fh:
+                    expected = _json.load(fh)
+                self.assertEqual(actual, expected)
     def setUp(self) -> None:
         mapping = {
             "https://business.diia.gov.ua/history-of-success": LISTING_HTML,

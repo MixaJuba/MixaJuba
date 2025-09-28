@@ -13,6 +13,7 @@ import urllib.robotparser
 
 import pandas as pd
 import requests
+import requests_cache
 from bs4 import BeautifulSoup
 
 from .story_parser import ParserConfig, DEFAULT_CONFIG, parse_story
@@ -68,10 +69,20 @@ class DiiaBusinessScraper:
         parser_config: ParserConfig = DEFAULT_CONFIG,
         request_delay: float = 1.0,
         request_timeout: int = 30,
+        export_raw_html: bool = False,
+        cache_expiry: int = 3600,
+        parser_mode: str = "heuristic",
+        dry_run: bool = False,
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.listing_path = listing_path
-        self.session = session or requests.Session()
+        # Enable requests-cache for HTTP session
+        self.cache_expiry = cache_expiry
+        if session:
+            self.session = session
+        else:
+            requests_cache.install_cache("diia_cache", backend="sqlite", expire_after=self.cache_expiry)
+            self.session = requests.Session()
         self.session.headers.setdefault(
             "User-Agent",
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -80,6 +91,9 @@ class DiiaBusinessScraper:
         self.parser_config = parser_config
         self.request_delay = request_delay
         self.request_timeout = request_timeout
+        self.export_raw_html = export_raw_html
+        self.parser_mode = parser_mode
+        self.dry_run = dry_run
 
     # ------------------------------------------------------------------
     # Public API
@@ -97,7 +111,27 @@ class DiiaBusinessScraper:
                 soup = BeautifulSoup(html, "html.parser")
                 title = self._extract_title(soup) or "Untitled story"
                 raw_text = self._extract_story_text(soup)
-                blocks = parse_story(raw_text, self.parser_config)
+                # Parser mode: heuristic by default, optional spacy/zero-shot
+                if self.parser_mode == "heuristic":
+                    blocks = parse_story(raw_text, self.parser_config)
+                elif self.parser_mode == "spacy":
+                    try:
+                        from .semantic_parsers import spacy_parse
+
+                        blocks = spacy_parse(raw_text, self.parser_config)
+                    except Exception:
+                        LOGGER.exception("spaCy parser not available, falling back to heuristic")
+                        blocks = parse_story(raw_text, self.parser_config)
+                elif self.parser_mode == "zero-shot":
+                    try:
+                        from .semantic_parsers import zero_shot_parse
+
+                        blocks = zero_shot_parse(raw_text, self.parser_config)
+                    except Exception:
+                        LOGGER.exception("Zero-shot parser not available, falling back to heuristic")
+                        blocks = parse_story(raw_text, self.parser_config)
+                else:
+                    blocks = parse_story(raw_text, self.parser_config)
                 validation = assess_story_blocks(blocks, self.parser_config.block_order)
                 stories.append(
                     StructuredStory(
@@ -135,7 +169,7 @@ class DiiaBusinessScraper:
     # Export helpers
     # ------------------------------------------------------------------
     def export(self, stories: Iterable[StructuredStory], output_dir: Path) -> Dict[str, Path]:
-        """Export structured stories to JSON and CSV."""
+        """Export structured stories to JSON and CSV, optionally raw HTML."""
 
         output_dir.mkdir(parents=True, exist_ok=True)
         stories_list = list(stories)
@@ -143,7 +177,15 @@ class DiiaBusinessScraper:
         csv_path = output_dir / "stories.csv"
         export_to_json(stories_list, json_path)
         export_to_csv(stories_list, csv_path)
-        return {"json": json_path, "csv": csv_path}
+        result = {"json": json_path, "csv": csv_path}
+        if self.export_raw_html:
+            raw_html_path = output_dir / "stories_raw.html"
+            with raw_html_path.open("w", encoding="utf-8") as fh:
+                for story in stories_list:
+                    fh.write(story.raw_text)
+                    fh.write("\n<!-- STORY SEPARATOR -->\n")
+            result["raw_html"] = raw_html_path
+        return result
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -216,11 +258,17 @@ class DiiaBusinessScraper:
         return soup.get_text(" ", strip=True)
 
     def _get(self, url: str) -> str:
-        """Perform an HTTP GET with error handling."""
+        """Perform an HTTP GET with retry and error handling."""
 
-        response = self.session.get(url, timeout=self.request_timeout)
-        response.raise_for_status()
-        return response.text
+        from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+
+        @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10), retry=retry_if_exception_type(requests.RequestException))
+        def _do_get(u: str) -> str:
+            resp = self.session.get(u, timeout=self.request_timeout)
+            resp.raise_for_status()
+            return resp.text
+
+        return _do_get(url)
 
 
 # ----------------------------------------------------------------------

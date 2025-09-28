@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./output:/app/output
+    environment:
+      - CACHE_DIR=/app/.cache
+    command: ["python", "-m", "diia_scraper.cli", "--limit", "5", "--output-dir", "output"]
+  viz:
+    build:
+      context: .
+      dockerfile: viz/Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./output:/app/output
+    depends_on:
+      - scraper
