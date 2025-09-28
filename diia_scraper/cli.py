@@ -59,6 +59,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Override listing path",
     )
     parser.add_argument("--verbose", action="store_true", help="Enable debug logging")
+    parser.add_argument("--export-raw-html", action="store_true", help="Export raw HTML of stories")
+    parser.add_argument("--cache-expiry", type=int, default=3600, help="HTTP cache expiry seconds (requests-cache)")
+    parser.add_argument("--parser-mode", choices=["heuristic", "spacy", "zero-shot"], default="heuristic", help="Parser backend to use")
+    parser.add_argument("--dry-run", action="store_true", help="Dry run: only check listing and story links without exporting")
+    parser.add_argument("--run-tests-after", action="store_true", help="Run unit tests automatically after scraping")
     return parser
 
 
@@ -79,6 +84,10 @@ def main(args: list[str] | None = None) -> None:
         parser_config=parser_config,
         request_delay=options.delay,
         request_timeout=options.timeout,
+        cache_expiry=options.cache_expiry,
+        parser_mode=options.parser_mode,
+        export_raw_html=options.export_raw_html,
+        dry_run=options.dry_run,
     )
 
     if not scraper.check_robots_allowance():
@@ -89,8 +98,19 @@ def main(args: list[str] | None = None) -> None:
         logging.error("No stories were scraped. Check network connectivity or URL settings.")
         return
 
-    outputs = scraper.export(stories, options.output_dir)
-    logging.info("Exported %s stories to JSON: %s and CSV: %s", len(stories), outputs["json"], outputs["csv"])
+    if options.dry_run:
+        logging.info("Dry run: found %s stories, not exporting.", len(stories))
+        outputs = {}
+    else:
+        outputs = scraper.export(stories, options.output_dir)
+        logging.info("Exported %s stories to JSON: %s and CSV: %s", len(stories), outputs["json"], outputs["csv"])
+        if "raw_html" in outputs:
+            logging.info("Exported raw HTML to: %s", outputs["raw_html"])
+
+    if options.run_tests_after:
+        import subprocess
+        logging.info("Running unit tests...")
+        subprocess.run(["python", "-m", "unittest", "-v"]) 
 
 
 if __name__ == "__main__":  # pragma: no cover - CLI entry point

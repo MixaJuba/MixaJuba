@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+      - name: Lint (flake8)
+        run: |
+          source .venv/bin/activate
+          pip install flake8
+          flake8 || true
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          python -m unittest -v
+      - name: Build Docker images (scraper + viz)
+        run: |
+          docker build -t diia-scraper -f scraper.Dockerfile .
+          docker build -t diia-viz -f viz/Dockerfile .
+      - name: Streamlit smoke test (import only)
+        run: |
+          source .venv/bin/activate
+          python -c "import viz.app"

@@ -1,5 +1,8 @@
 # Diia.Business Success Story Scraper
 
+[![CI](https://github.com/MixaJuba/MixaJuba/actions/workflows/ci.yml/badge.svg)](https://github.com/MixaJuba/MixaJuba/actions/workflows/ci.yml)
+
+
 This repository now contains a production-ready Python utility that collects
 Ukrainian business success stories from
 [Diia.Business](https://business.diia.gov.ua/history-of-success), normalises the
@@ -83,9 +86,25 @@ allow you to tailor detection for niche industries or internal terminology.
   change tracking.
 - **Apache Airflow** – load `DiiaBusinessScraper` inside a PythonOperator task to
   integrate with existing ETL pipelines. Use XCom to push JSON payloads.
-- **Google Sheets / Notion** – export the CSV to Google Drive via
+-- **Google Sheets / Notion** – export the CSV to Google Drive via
   [`gspread`](https://github.com/burnash/gspread) or sync to Notion using the
   official [Notion API](https://developers.notion.com/docs/getting-started).
+
+### Example: Google Sheets integration with gspread
+
+```python
+import gspread
+import pandas as pd
+
+# Authenticate (see gspread docs for OAuth setup)
+gc = gspread.service_account(filename='credentials.json')
+sh = gc.create('Diia Stories')
+
+# Load CSV and upload
+df = pd.read_csv('output/stories.csv')
+worksheet = sh.get_worksheet(0)
+worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+```
 
 ## Best practices
 
@@ -98,10 +117,27 @@ allow you to tailor detection for niche industries or internal terminology.
 4. **Content drift** – HTML structure may change; extend
    `_extract_story_text()` selectors and add regression tests with fixture HTML.
 5. **NLP upgrades** – swap the heuristic parser for
-   [spaCy](https://spacy.io/usage) text classification, a
-   [LangChain](https://python.langchain.com/docs/) Structured Output Parser, or
-   zero-shot models from [Hugging Face Transformers](https://huggingface.co/docs/transformers/index)
-   if higher recall is required.
+   [spaCy](https://spacy.io/usage) text classification або zero-shot/ML моделі з [Hugging Face Transformers](https://huggingface.co/docs/transformers/index) для підвищення якості сегментації блоків.
+
+## Semantic parsing (spaCy / HuggingFace)
+
+Для покращення розбиття на блоки використовуйте:
+
+- [spaCy](https://spacy.io/usage) для rule-based або ML-класифікації:
+  ```python
+  import spacy
+  nlp = spacy.load('uk_core_news_sm')
+  doc = nlp(story_text)
+  # Використовуйте doc.cats або кастомний pipeline для визначення блоків
+  ```
+- [Hugging Face Transformers](https://huggingface.co/docs/transformers/index) для zero-shot або кастомних моделей:
+  ```python
+  from transformers import pipeline
+  classifier = pipeline('zero-shot-classification', model='joeddav/xlm-roberta-large-xnli')
+  result = classifier(story_text, candidate_labels=["Introduction", "Audit", ...])
+  ```
+
+Замініть або доповніть поточний евристичний парсер у `story_parser.py` для більшої гнучкості та точності.
 
 ## Testing
 
@@ -121,6 +157,28 @@ stories once network access is available.
 - **Empty exports** – ensure the listing URL has stories (pagination can be
   handled by calling `scrape()` again with an offset or extending
   `_fetch_story_links`).
+
+## Visualization (Streamlit)
+
+An interactive explorer is included under `viz/`. It reads `output/stories.json` or `output/stories.csv` and shows:
+
+- block completeness heatmap
+- timeline of fetches
+- word frequency explorer per block
+
+Run locally:
+
+```bash
+pip install -r requirements.txt
+streamlit run viz/app.py
+```
+
+Run via Docker (recommended for stable deployments):
+
+```bash
+docker build -t diia-viz -f viz/Dockerfile .
+docker run -p 8501:8501 diia-viz
+```
 - **Encoding issues** – all exports use UTF-8; if your downstream system expects
   Windows-1251, convert via `iconv` or `pandas.DataFrame.to_csv(encoding="cp1251")`.
 
