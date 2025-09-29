@@ -17,7 +17,12 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
+          pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Check plotly import
+        run: |
+          source .venv/bin/activate
+          python -c "import plotly"
       - name: Lint (flake8)
         run: |
           source .venv/bin/activate
