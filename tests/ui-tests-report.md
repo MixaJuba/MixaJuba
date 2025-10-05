@@ -1,0 +1,1 @@
+# UI Tests Report (placeholder)
