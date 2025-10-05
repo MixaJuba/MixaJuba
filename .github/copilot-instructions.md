@@ -1,45 +1,63 @@
-# QuantumForce_Code: Copilot Instructions for AI Coding Agents
+# QuantumForce_Code: Copilot & RepoBuilder Instructions for AI Coding Agents
 
 ## 1. Project Overview
-QuantumForce_Code is a cyberpunk-themed automotive diagnostics AI platform. The codebase is currently a skeleton, containing only `README.md` and `AGENTS.md`. All other files have been removed for a fresh start.
+QuantumForce_Code — кіберпанк-платформа для AI-діагностики автомобілів, орієнтована на Android, OBD-II, та професійних автомайстрів. RepoBuilder — автономний DevOps/код-генератор у GitHub Codespaces.
 
-## 2. Key Files
-- `README.md`: Contains project vision, target users, and a summary of planned architecture and documentation files. Use this as the primary source for understanding the project's goals and thematic style.
-- `AGENTS.md`: Defines agent permissions, project type, and stylistic guidelines. AI agents have full read-write access and should follow the cyberpunk automotive theme, use emojis, and provide technical documentation.
+## 2. Key Files & Knowledge Sources
+- `README.md`: Візія, цілі, основні файли, стиль, для кого проект.
+- `AGENTS.md`: Дозволи для AI-агентів, стиль, мови, правила.
+- `AUTOMOTIVE_DIAGNOSTIC_SOFTWARE_GUIDE.md`: Повний технічний гайд — архітектура, етапи розробки, AI-інтеграція, бізнес-модель.
+- `QUICK_START_GUIDE_UA.md`: Покроковий старт для розробника (інструменти, Android Studio, Git, Copilot, структура проєкту).
+- `AI_AGENT_PROMPTS_LIBRARY.md`: Бібліотека промптів для AI-агентів (архітектура, генерація коду, тестування, документація).
 
-## 3. Architecture & Patterns
-- The architecture is not yet implemented. Future structure will include:
-  - AI-powered diagnostic modules
-  - OBD-II integration
-  - Business logic for auto service workflows
-  - Data analytics and reporting
-- All new code should be modular, well-documented, and follow the cyberpunk/techno-futuristic style described in `README.md`.
+## 3. RepoBuilder Role & Capabilities
+- Ініціалізує багатомодульний Android-проєкт "AutoDiagPro" (Gradle Kotlin DSL, пакет com.autodiagpro.*)
+- Створює структуру каталогів, налаштовує середовище виконання, DevContainer, CI/CD, Gradle DSL
+- Керує кешуванням, завантаженням бібліотек, SDK, VS Code extensions
+- Виконує базову збірку, тестування, lint/detect, аналізує журнали
+- Документує всі зміни у `docs/` (patches, logs, workflows)
+- Інтегрує Copilot/Codex/Claude через промпти з AI_AGENT_PROMPTS_LIBRARY.md
+- Самостійно визначає, коли потрібно уточнити завдання з користувачем
+- Оптимізує процеси компіляції, кешування, тестування для стабільності
 
-## 4. Developer Workflow
-- No build, test, or deployment scripts currently exist. When adding these, document all commands and workflows in the README or a dedicated guide.
-- Use clear, numbered comments for all major code blocks to help future agents and developers understand logic and flow.
+## 4. Architecture & Patterns
+- Основна мета: створити автономний Android-сканер з AI-діагностикою, підтримкою оновлень, багатомовністю, та гнучкою бізнес-моделлю
+- Архітектура описана у `AUTOMOTIVE_DIAGNOSTIC_SOFTWARE_GUIDE.md` (див. System Architecture, Hardware Integration, AI Agents)
+- Всі нові модулі мають бути ізольованими, з чіткими інтерфейсами (див. приклади промптів та коду)
+- Дані між компонентами передаються через чітко описані API/інтерфейси
 
-## 5. Conventions & Guidelines
-- Use Ukrainian and English for documentation and code comments.
-- Prefer emoji and technical terminology for user-facing text.
-- Reference `README.md` and `AGENTS.md` for thematic and permission guidance.
-- When creating new files, add a short header comment explaining the file's purpose and its role in the overall architecture.
+## 5. Developer Workflow
+- Старт роботи: дотримуйся `QUICK_START_GUIDE_UA.md` (Android Studio, Git, Copilot)
+- Для AI-розробки використовуй промпти з `AI_AGENT_PROMPTS_LIBRARY.md`
+- Тестування: орієнтуйся на секцію Testing & QA Prompts, а також на розділ Testing and Quality Control у технічному гіді
+- Документуй всі нові модулі згідно з патернами з `AUTOMOTIVE_DIAGNOSTIC_SOFTWARE_GUIDE.md` та `README.md`
+- Всі зміни, патчі, журнали — у `docs/`
 
-## 6. Integration Points
-- No external dependencies or integrations are present yet. When adding, document them clearly in the README and relevant code files.
+## 6. Conventions & Guidelines
+- Документація та коментарі: українською та англійською, з emoji та технічними термінами
+- Всі файли мають починатися з короткого опису (див. приклади у README та технічному гіді)
+- Дотримуйся кіберпанк-стилю та структурованих, нумерованих коментарів
+- Всі AI-агенти мають повний доступ до створення, редагування, видалення файлів (див. AGENTS.md)
 
-## 7. Example: File Header
-```python
-# 1. File Purpose: Implements core AI diagnostic logic for QuantumForce_Code
-# 2. Role: Main entry point for vehicle data analysis and reporting
-# ...existing code...
+## 7. Integration Points & Dependencies
+- Основна інтеграція: Android, OBD-II, SQLite, AI-агенти
+- Всі зовнішні залежності мають бути описані у відповідних секціях документації
+- Для нових інтеграцій — додавай пояснення у README та технічному гіді
+
+## 8. Example: File Header
+```kotlin
+// 1. File Purpose: Implements OBD-II protocol handler for AutoDiagPro
+// 2. Role: Provides data interface between vehicle hardware and AI diagnostic engine
+// ...existing code...
 ```
 
-## 8. Next Steps for AI Agents
-- Propose and scaffold new modules based on the README vision
-- Document all new workflows and architectural decisions
-- Maintain the cyberpunk automotive theme throughout code and docs
+## 9. Next Steps for AI Agents & RepoBuilder
+- Вивчи всі ключові документи перед початком роботи
+- Пропонуй нові модулі, базуючись на архітектурі та промптах
+- Документуй всі рішення та workflow
+- Підтримуй кіберпанк-стиль у всіх аспектах проекту
+- Всі зміни — у docs/patches та docs/logs
 
 ---
 
-> For questions or missing context, ask the user for clarification before making major architectural decisions.
+> Якщо щось незрозуміло або не вистачає контексту — запитай користувача перед внесенням архітектурних змін.
