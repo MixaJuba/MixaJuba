@@ -55,7 +55,7 @@ QuantumForce_Code/
 │   ├── 📄 build.gradle.kts
 │   ├── 📁 src/
 │   │   ├── 📁 main/
-│   │   │   ├── 📁 java/com/autodiagpro/app/
+│   │   │   ├── 📁 java/com/quantumforce_code/app/
 │   │   │   │   ├── 📄 MainActivity.kt
 │   │   │   │   ├── 📄 App.kt
 │   │   │   │   ├── 📁 ui/
@@ -78,7 +78,7 @@ QuantumForce_Code/
 ├── 🧩 core/
 │   ├── 📁 domain/                     # Бізнес-логіка (UseCases, Models)
 │   │   ├── 📄 build.gradle.kts
-│   │   └── 📁 src/main/kotlin/com/autodiagpro/core/domain/
+│   │   └── 📁 src/main/kotlin/com/quantumforce_code/core/domain/
 │   │       ├── 📄 UseCase.kt
 │   │       ├── 📄 Vehicle.kt
 │   │       ├── 📄 DtcCode.kt
@@ -86,7 +86,7 @@ QuantumForce_Code/
 │   │
 │   ├── 📁 data/                       # Room, репозиторії, DAO
 │   │   ├── 📄 build.gradle.kts
-│   │   └── 📁 src/main/kotlin/com/autodiagpro/core/data/
+│   │   └── 📁 src/main/kotlin/com/quantumforce_code/core/data/
 │   │       ├── 📁 db/
 │   │       │   ├── 📄 AppDatabase.kt
 │   │       │   └── 📄 DtcDao.kt
@@ -102,7 +102,7 @@ QuantumForce_Code/
 ├── 🧩 hardware/
 │   └── 📁 transport/
 │       ├── 📄 build.gradle.kts
-│       └── 📁 src/main/kotlin/com/autodiagpro/hardware/transport/
+│       └── 📁 src/main/kotlin/com/quantumforce_code/hardware/transport/
 │           ├── 📄 Port.kt
 │           ├── 📄 BluetoothPort.kt
 │           ├── 📄 TcpPort.kt
@@ -113,7 +113,7 @@ QuantumForce_Code/
 ├── 🧩 protocols/
 │   └── 📁 obd/
 │       ├── 📄 build.gradle.kts
-│       └── 📁 src/main/kotlin/com/autodiagpro/protocols/obd/
+│       └── 📁 src/main/kotlin/com/quantumforce_code/protocols/obd/
 │           ├── 📄 ObdInterface.kt
 │           ├── 📄 Elm327.kt
 │           ├── 📄 ObdCommand.kt
@@ -124,7 +124,7 @@ QuantumForce_Code/
 ├── 🧩 features/
 │   ├── 📁 dtc/
 │   │   ├── 📄 build.gradle.kts
-│   │   └── 📁 src/main/kotlin/com/autodiagpro/features/dtc/
+│   │   └── 📁 src/main/kotlin/com/quantumforce_code/features/dtc/
 │   │       ├── 📄 DtcViewModel.kt
 │   │       ├── 📄 DtcScreenModel.kt
 │   │       ├── 📄 DtcUiState.kt
@@ -132,7 +132,7 @@ QuantumForce_Code/
 │   │
 │   └── 📁 live/
 │       ├── 📄 build.gradle.kts
-│       └── 📁 src/main/kotlin/com/autodiagpro/features/live/
+│       └── 📁 src/main/kotlin/com/quantumforce_code/features/live/
 │           ├── 📄 LiveDataViewModel.kt
 │           ├── 📄 LiveChartRenderer.kt
 │           └── 📄 LiveRepositoryBridge.kt
@@ -140,7 +140,7 @@ QuantumForce_Code/
 │
 ├── 🧩 security/
 │   ├── 📄 build.gradle.kts
-│   └── 📁 src/main/kotlin/com/autodiagpro/security/
+│   └── 📁 src/main/kotlin/com/quantumforce_code/security/
 │       ├── 📄 ThreatModel.md
 │       ├── 📄 SecurityPolicy.kt
 │       └── 📄 LoggerPolicy.kt
@@ -148,7 +148,7 @@ QuantumForce_Code/
 │
 ├── 🧩 updates/
 │   ├── 📄 build.gradle.kts
-│   └── 📁 src/main/kotlin/com/autodiagpro/updates/
+│   └── 📁 src/main/kotlin/com/quantumforce_code/updates/
 │       ├── 📄 ManifestClient.kt
 │       ├── 📄 DataVersion.kt
 │       ├── 📄 UpdateChecker.kt
