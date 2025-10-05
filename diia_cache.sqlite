@@ -1,0 +1,2 @@
+-- 1. File Purpose: SQLite cache for diia_scraper
+-- 2. Role: Stores cached data for efficient access
