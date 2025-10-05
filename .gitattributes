@@ -1,1 +1,83 @@
+# ================================================================================
+# 🔥 QuantumForce_Code .gitattributes | AI-Панк Автодіагностика 🤖
+# ================================================================================
+# File Purpose: Налаштування Git для обробки різних типів файлів
+# Role: Забезпечує консистентність end-of-line (EOL), diff, merge для всіх платформ
+# ================================================================================
+
+# ===== Default Behavior =====
+# Автоматична нормалізація text файлів з LF (Linux/macOS стандарт)
 * text=auto eol=lf
+
+# ===== Source Code =====
+# Kotlin/Java - завжди текст з LF
+*.kt text eol=lf
+*.java text eol=lf
+*.kts text eol=lf
+
+# Gradle
+*.gradle text eol=lf
+*.gradle.kts text eol=lf
+gradle.properties text eol=lf
+
+# ===== Configuration Files =====
+# YAML, JSON, XML - текстові з LF
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.toml text eol=lf
+
+# ===== Documentation =====
+# Markdown - текст з LF
+*.md text eol=lf
+
+# ===== Scripts =====
+# Shell scripts - LF обов'язково (Unix-style)
+*.sh text eol=lf
+
+# Windows batch - CRLF обов'язково
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Python
+*.py text eol=lf
+
+# ===== Binary Files =====
+# Зображення - binary (не diff, не merge)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+
+# Archives
+*.jar binary
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Fonts
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+
+# APK/AAB
+*.apk binary
+*.aab binary
+*.so binary
+
+# Keystores
+*.jks binary
+*.keystore binary
+
+# ===== Git LFS (Large File Storage) - якщо використовується =====
+# Великі бінарні файли (можна налаштувати для APK/assets)
+# *.apk filter=lfs diff=lfs merge=lfs -text
+# *.aab filter=lfs diff=lfs merge=lfs -text
+
+# ================================================================================
+# Кінець .gitattributes | Крос-платформна консистентність! 🌐⚡
+# ================================================================================
