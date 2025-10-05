@@ -1,0 +1,6 @@
+{
+  "name": "QuantumForce_Code",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {},
+  "postCreateCommand": "./.devcontainer/postCreate.sh"
+}
