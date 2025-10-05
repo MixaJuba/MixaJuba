@@ -1,5 +1,10 @@
 // 1. File Purpose: Main activity for AutoDiagPro app
-// 2. Role: Entry point, sets up Compose and navigation
+// 2. Role: Entry point, sets up Compose UI and Material3 theme
+// 3. Architecture: Single-activity architecture with Jetpack Compose
+// 4. Navigation: Delegates to NavGraph via AutoDiagProApp composable
+// 5. Lifecycle: Manages UI state, handles configuration changes
+// 6. Dependencies: Hilt-injected ViewModels and repositories available to children
+// 7. Related: AutoDiagProApp.kt (root composable), NavGraph.kt (navigation)
 
 package com.quantumforce_code.app
 
