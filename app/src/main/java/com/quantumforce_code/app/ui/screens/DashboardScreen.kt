@@ -1,6 +1,10 @@
-// 1. File Purpose: Dashboard screen for main app navigation
-// 2. Role: Displays main menu and quick access to features
-
+/**
+ * Dashboard Screen for Main App Navigation.
+ *
+ * Purpose: Displays the main menu and quick access to app features.
+ * Functionality: Provides buttons to navigate to DTC and Live Data screens.
+ * Context: First screen users see; part of the UI layer in the app module.
+ */
 package com.quantumforce_code.app.ui.screens
 
 import androidx.compose.foundation.layout.*

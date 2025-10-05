@@ -1,6 +1,10 @@
-// 1. File Purpose: Main app composable
-// 2. Role: Root composable that sets up navigation
-
+/**
+ * Main App Composable.
+ *
+ * Purpose: Root composable that sets up the app's navigation and UI structure.
+ * Functionality: Wraps the NavGraph to provide the main app layout and routing.
+ * Context: Called from MainActivity; central point for UI composition and navigation flow.
+ */
 package com.quantumforce_code.app
 
 import androidx.compose.runtime.Composable

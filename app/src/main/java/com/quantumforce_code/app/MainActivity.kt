@@ -1,6 +1,10 @@
-// 1. File Purpose: Main activity for AutoDiagPro app
-// 2. Role: Entry point, sets up Compose and navigation
-
+/**
+ * Main Activity for AutoDiagPro App.
+ *
+ * Purpose: Serves as the entry point for the Android application, initializing the UI framework.
+ * Functionality: Sets up Jetpack Compose, applies the app theme, and displays the main navigation graph.
+ * Context: Launched when the app starts; manages the app's lifecycle and UI rendering.
+ */
 package com.quantumforce_code.app
 
 import android.os.Bundle

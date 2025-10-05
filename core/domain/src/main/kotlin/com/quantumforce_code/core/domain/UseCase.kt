@@ -1,5 +1,10 @@
-// 1. File Purpose: Base UseCase abstraction
-// 2. Role: Provides contract for executing domain operations
+/**
+ * Base UseCase Abstraction.
+ *
+ * Purpose: Provides a contract for executing domain operations in a clean architecture.
+ * Functionality: Defines a suspend function for business logic execution with parameters and results.
+ * Context: Used by ViewModels to perform domain logic; ensures separation of concerns.
+ */
 
 package com.quantumforce_code.core.domain
 
