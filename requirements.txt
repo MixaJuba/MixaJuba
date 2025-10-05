@@ -1,2 +1,0 @@
-# 1. File Purpose: Python dependencies for QuantumForce_Code
-# 2. Role: Lists required packages for all modules
