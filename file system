@@ -1,0 +1,209 @@
+---
+( ЦІЛЬ  )
+## 🗂️ Структура Репозиторію AutoDiagPro (v0.1 MVP)
+
+> Формат — дерево директорій і файлів. Пояснення додаються простими словами під розділами.
+> Позначення:
+>
+> * 📁 — папка
+> * 📄 — файл
+> * 🤖 — промпти / конфігурації для AI агентів
+> * 🧩 — код або модуль
+> * 🧠 — документація
+> * ⚙️ — CI / DevContainer / інфраструктура
+
+---
+
+```plaintext
+AutoDiagPro/
+│
+├── 📄 README.md
+├── 📄 LICENSE
+├── 📄 .gitignore
+├── 📄 .gitattributes
+│
+├── 📁 .github/
+│   ├── 📁 workflows/
+│   │   ├── 📄 android-ci.yml          # CI: лінти, тести, збірка
+│   │   ├── 📄 pr-lint-check.yml       # Легкий workflow на PR
+│   │   └── 📄 release.yml             # Автоматизація релізів (пізніше)
+│   ├── 📄 CODEOWNERS                  # Призначення AI-агентів за модулями
+│   ├── 📄 pull_request_template.md    # Шаблон PR
+│   └── 📄 issue_template.md           # Шаблон issue (опціонально)
+│
+├── 📁 .devcontainer/
+│   ├── 📄 devcontainer.json           # Конфігурація Codespaces
+│   ├── 📄 Dockerfile                  # Середовище Android SDK + JDK 17
+│   └── 📄 postCreate.sh               # Скрипт ініціалізації (ktlint, detekt)
+│
+├── 📁 build-logic/                    # Gradle плагіни і логіка збірки (опц.)
+│   ├── 📄 build.gradle.kts
+│   ├── 📄 settings.gradle.kts
+│   └── 📄 conventions.gradle.kts
+│
+├── 📁 gradle/                         # Gradle інфраструктура
+│   ├── 📄 libs.versions.toml          # Каталог версій
+│   └── 📄 wrapper/
+│       ├── 📄 gradle-wrapper.properties
+│       └── 📄 gradle-wrapper.jar
+│
+├── 📄 settings.gradle.kts             # Основний реєстр модулів
+├── 📄 build.gradle.kts                # Root build з плагінами/налаштуваннями
+│
+│
+├── 🧩 app/                            # Головний застосунок (UI)
+│   ├── 📄 build.gradle.kts
+│   ├── 📁 src/
+│   │   ├── 📁 main/
+│   │   │   ├── 📁 java/com/autodiagpro/app/
+│   │   │   │   ├── 📄 MainActivity.kt
+│   │   │   │   ├── 📄 App.kt
+│   │   │   │   ├── 📁 ui/
+│   │   │   │   │   ├── 📁 screens/
+│   │   │   │   │   │   ├── 📄 DashboardScreen.kt
+│   │   │   │   │   │   ├── 📄 DtcScreen.kt
+│   │   │   │   │   │   └── 📄 LiveScreen.kt
+│   │   │   │   │   └── 📁 components/
+│   │   │   │   │       └── 📄 CommonUi.kt
+│   │   │   │   └── 📁 navigation/
+│   │   │   │       └── 📄 NavGraph.kt
+│   │   │   ├── 📁 res/                 # ресурси (іконки, строки)
+│   │   │   └── 📄 AndroidManifest.xml
+│   │   └── 📁 test/                   # Тести для UI
+│   │       └── 📄 AppUiTest.kt
+│   └── 📁 docs/
+│       └── 📄 ui-agent-guidelines.md
+│
+│
+├── 🧩 core/
+│   ├── 📁 domain/                     # Бізнес-логіка (UseCases, Models)
+│   │   ├── 📄 build.gradle.kts
+│   │   └── 📁 src/main/kotlin/com/autodiagpro/core/domain/
+│   │       ├── 📄 UseCase.kt
+│   │       ├── 📄 Vehicle.kt
+│   │       ├── 📄 DtcCode.kt
+│   │       └── 📄 DiagnosticSession.kt
+│   │
+│   ├── 📁 data/                       # Room, репозиторії, DAO
+│   │   ├── 📄 build.gradle.kts
+│   │   └── 📁 src/main/kotlin/com/autodiagpro/core/data/
+│   │       ├── 📁 db/
+│   │       │   ├── 📄 AppDatabase.kt
+│   │       │   └── 📄 DtcDao.kt
+│   │       ├── 📁 repo/
+│   │       │   ├── 📄 DtcRepository.kt
+│   │       │   └── 📄 VehicleRepository.kt
+│   │       └── 📄 DataMappers.kt
+│   │
+│   └── 📁 test/
+│       └── 📄 DataUnitTests.kt
+│
+│
+├── 🧩 hardware/
+│   └── 📁 transport/
+│       ├── 📄 build.gradle.kts
+│       └── 📁 src/main/kotlin/com/autodiagpro/hardware/transport/
+│           ├── 📄 Port.kt
+│           ├── 📄 BluetoothPort.kt
+│           ├── 📄 TcpPort.kt
+│           ├── 📄 UsbSerialPort.kt
+│           └── 📄 ConnectionManager.kt
+│
+│
+├── 🧩 protocols/
+│   └── 📁 obd/
+│       ├── 📄 build.gradle.kts
+│       └── 📁 src/main/kotlin/com/autodiagpro/protocols/obd/
+│           ├── 📄 ObdInterface.kt
+│           ├── 📄 Elm327.kt
+│           ├── 📄 ObdCommand.kt
+│           ├── 📄 PidParser.kt
+│           └── 📄 DtcParser.kt
+│
+│
+├── 🧩 features/
+│   ├── 📁 dtc/
+│   │   ├── 📄 build.gradle.kts
+│   │   └── 📁 src/main/kotlin/com/autodiagpro/features/dtc/
+│   │       ├── 📄 DtcViewModel.kt
+│   │       ├── 📄 DtcScreenModel.kt
+│   │       ├── 📄 DtcUiState.kt
+│   │       └── 📄 DtcRepositoryBridge.kt
+│   │
+│   └── 📁 live/
+│       ├── 📄 build.gradle.kts
+│       └── 📁 src/main/kotlin/com/autodiagpro/features/live/
+│           ├── 📄 LiveDataViewModel.kt
+│           ├── 📄 LiveChartRenderer.kt
+│           └── 📄 LiveRepositoryBridge.kt
+│
+│
+├── 🧩 security/
+│   ├── 📄 build.gradle.kts
+│   └── 📁 src/main/kotlin/com/autodiagpro/security/
+│       ├── 📄 ThreatModel.md
+│       ├── 📄 SecurityPolicy.kt
+│       └── 📄 LoggerPolicy.kt
+│
+│
+├── 🧩 updates/
+│   ├── 📄 build.gradle.kts
+│   └── 📁 src/main/kotlin/com/autodiagpro/updates/
+│       ├── 📄 ManifestClient.kt
+│       ├── 📄 DataVersion.kt
+│       ├── 📄 UpdateChecker.kt
+│       └── 📄 UpdateRepository.kt
+│
+│
+├── 🧠 docs/
+│   ├── 📄 architecture.md
+│   ├── 📄 roadmap.md
+│   ├── 📄 adr/adr-001-initial-architecture.md
+│   ├── 📄 AI_AGENT_ROLE.md
+│   ├── 📄 SECURITY_POLICY.md
+│   ├── 📄 CONTRIBUTING.md
+│   └── 📄 testing-guidelines.md
+│
+│
+├── 🤖 prompts/
+│   ├── 📄 README.md                     # Пояснення системи промптів
+│   ├── 📄 ui-agent-start.md
+│   ├── 📄 data-agent-start.md
+│   ├── 📄 protocols-agent-start.md
+│   ├── 📄 transport-agent-start.md
+│   ├── 📄 feature-dtc-start.md
+│   ├── 📄 feature-live-start.md
+│   ├── 📄 security-review.md
+│   ├── 📄 review-common.md
+│   └── 📄 build-agent.md
+│
+│
+├── ⚙️ scripts/
+│   ├── 📄 verify-local.sh               # локальна перевірка перед PR
+│   ├── 📄 format-code.sh                # форматування KtLint
+│   ├── 📄 run-tests.sh
+│   └── 📄 setup-env.sh
+│
+│
+└── ⚙️ tests/
+    ├── 📄 integration-test-plan.md
+    ├── 📄 unit-tests-report.md
+    └── 📄 ui-tests-report.md
+```
+
+---
+
+## 🧭 Пояснення логіки дерева
+
+* **`app/`** — головний Android-модуль, де збирається інтерфейс (Compose + Navigation + Hilt).
+* **`core/`** — основа бізнес-логіки (Domain + Data).
+* **`hardware/transport/`** — фізичні канали (Bluetooth/Wi-Fi/USB).
+* **`protocols/obd/`** — рівень протоколів (ELM327, PID, DTC).
+* **`features/`** — окремі функціональні блоки (читання DTC, Live Data).
+* **`security/` і `updates/`** — системні модулі безпеки і оновлень.
+* **`docs/`** — вся текстова документація проєкту, включно з AI-рольовими документами.
+* **`prompts/`** — готові шаблони запитів для агентів.
+* **`scripts/`** — допоміжні скрипти для автоматизації перевірок і форматування.
+* **`.github/` і `.devcontainer/`** — CI та середовище Codespaces.
+
+---
