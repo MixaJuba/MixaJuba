@@ -124,7 +124,7 @@
 |----------|-------------|----------|
 | [AI Agent Prompts Library](prompts/ai-agent-prompts-library.md) | Бібліотека готових промптів | AI користувачі |
 | [AI Agent Role](AI_AGENT_ROLE.md) | Ролі, межі, escalation | AI-агенти, керівники |
-| [Prompts System Guide](prompts/README.md) | Система промптів | AI користувачі |
+| [Prompts System Guide](../prompts/README.md) | Система промптів | AI користувачі |
 | [Specialized Agent Prompts](prompts/) | UI, Data, Protocol агенти | Спеціалізовані агенти |
 
 ### 🧪 Тестування і якість | Testing & Quality

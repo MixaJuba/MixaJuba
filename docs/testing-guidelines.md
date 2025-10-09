@@ -920,7 +920,7 @@ tasks.register("prGate") {
 ### Внутрішні документи:
 - [Implementation Examples](IMPLEMENTATION_EXAMPLES.md) - приклади тестів
 - [Contributing Guidelines](CONTRIBUTING.md) - стандарти тестування
-- [CI/CD Workflows](.github/workflows/) - автоматизація
+- [CI/CD Workflows](../.github/workflows/) - автоматизація
 
 ### Зовнішні ресурси:
 - [Android Testing Guide](https://developer.android.com/training/testing)

@@ -27,7 +27,7 @@ prompts/
 ├── README.md                         # Цей файл / This file
 │
 ├── 📖 Загальна бібліотека | General Library
-│   └── ai-agent-prompts-library.md  # Універсальні промпти для всіх задач
+│   └── ../docs/docs/prompts/ai-agent-prompts-library.md  # Універсальні промпти для всіх задач
 │                                      (Architecture, Code Gen, Testing, etc.)
 │
 ├── 🎯 Спеціалізовані стартери | Specialized Starters
@@ -166,7 +166,7 @@ Output: Markdown документація з діаграмами
    → docs/INTERFACE_CONTRACTS.md → Domain Layer
 
 2. Обери промпт
-   → prompts/ai-agent-prompts-library.md 
+   → docs/prompts/ai-agent-prompts-library.md 
    → Code Generation Prompts 
    → Domain Layer UseCase
 
@@ -182,7 +182,7 @@ Output: Markdown документація з діаграмами
 4. Отримай код від AI
 
 5. Додай тести
-   → prompts/ai-agent-prompts-library.md 
+   → docs/prompts/ai-agent-prompts-library.md 
    → Testing & QA Prompts 
    → Unit Test Generation
 
