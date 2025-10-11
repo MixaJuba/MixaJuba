@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 QuantumForce_Code | Інтерактивна Структура Проекту</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e6ed;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d9ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #a0aec0;
+            font-size: 1.2em;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(26, 31, 58, 0.6);
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(45, 55, 72, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+        }
+        
+        .legend-icon {
+            font-size: 1.5em;
+        }
+        
+        .tree-container {
+            background: rgba(26, 31, 58, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+        }
+        
+        .tree-node {
+            margin-left: 20px;
+            padding: 8px 0;
+        }
+        
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: rgba(45, 55, 72, 0.6);
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tree-item:hover {
+            background: rgba(74, 85, 104, 0.8);
+            transform: translateX(5px);
+            border-left-color: #00d9ff;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+        }
+        
+        .tree-item.expanded {
+            border-left-color: #ff00ff;
+        }
+        
+        .icon {
+            font-size: 1.5em;
+            min-width: 30px;
+        }
+        
+        .name {
+            font-weight: 600;
+            color: #e0e6ed;
+        }
+        
+        .description {
+            color: #a0aec0;
+            font-size: 0.9em;
+            margin-left: auto;
+        }
+        
+        .children {
+            display: none;
+            margin-left: 30px;
+            padding-left: 20px;
+            border-left: 2px dashed rgba(160, 174, 192, 0.3);
+        }
+        
+        .children.visible {
+            display: block;
+        }
+        
+        .layer-ui { border-left-color: #1e3a5f !important; }
+        .layer-business { border-left-color: #2d1b4e !important; }
+        .layer-data { border-left-color: #1b3a2d !important; }
+        .layer-hardware { border-left-color: #4a1e1e !important; }
+        .layer-system { border-left-color: #3a2a1e !important; }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00d9ff, #0099cc);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .legend {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .tree-node {
+                margin-left: 10px;
+            }
+            
+            .children {
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 QuantumForce_Code</h1>
+            <p class="subtitle">Інтерактивна Структура Проекту | AI-Панк Автодіагностика 🤖</p>
+        </header>
+        
+        <div class="legend">
+            <div class="legend-item"><span class="legend-icon">📱</span> UI/Presentation</div>
+            <div class="legend-item"><span class="legend-icon">🧠</span> Business Logic</div>
+            <div class="legend-item"><span class="legend-icon">💾</span> Data Layer</div>
+            <div class="legend-item"><span class="legend-icon">🔌</span> Hardware</div>
+            <div class="legend-item"><span class="legend-icon">🔐</span> Security/System</div>
+            <div class="legend-item"><span class="legend-icon">📚</span> Documentation</div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="expandAll()">🔓 Розгорнути Все</button>
+            <button onclick="collapseAll()">🔒 Згорнути Все</button>
+        </div>
+        
+        <div class="tree-container" id="tree">
+            <!-- Tree будет заполнено через JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        const treeData = {
+            name: 'QuantumForce_Code/',
+            icon: '🚀',
+            description: 'Root проекту',
+            children: [
+                {
+                    name: 'app/',
+                    icon: '📱',
+                    description: 'Android Application (APK)',
+                    class: 'layer-ui',
+                    children: [
+                        {
+                            name: 'ui/',
+                            icon: '🎨',
+                            description: 'Jetpack Compose UI',
+                            children: [
+                                { name: 'screens/', icon: '📄', description: 'Dashboard, DTC, Live screens' },
+                                { name: 'components/', icon: '🧩', description: 'Reusable UI components' }
+                            ]
+                        },
+                        { name: 'navigation/', icon: '🧭', description: 'NavGraph (Navigation Compose)' },
+                        { name: 'AndroidManifest.xml', icon: '📦', description: 'App manifest (permissions)' }
+                    ]
+                },
+                {
+                    name: 'core/',
+                    icon: '🧠',
+                    description: 'Core Business Logic',
+                    class: 'layer-business',
+                    children: [
+                        {
+                            name: 'domain/',
+                            icon: '💼',
+                            description: 'Use Cases, Business Models',
+                            children: [
+                                { name: 'UseCase.kt', icon: '⚙️', description: 'Base UseCase class' },
+                                { name: 'Vehicle.kt', icon: '🚗', description: 'Vehicle model (VIN, make)' },
+                                { name: 'DtcCode.kt', icon: '🔴', description: 'DTC model (code, description)' }
+                            ]
+                        },
+                        {
+                            name: 'data/',
+                            icon: '💾',
+                            description: 'Data Layer',
+                            class: 'layer-data',
+                            children: [
+                                {
+                                    name: 'db/',
+                                    icon: '🗄️',
+                                    description: 'Room Database',
+                                    children: [
+                                        { name: 'AppDatabase.kt', icon: '📊', description: 'Main DB class' },
+                                        { name: 'DtcDao.kt', icon: '📝', description: 'DTC queries' }
+                                    ]
+                                },
+                                {
+                                    name: 'repo/',
+                                    icon: '📁',
+                                    description: 'Repositories',
+                                    children: [
+                                        { name: 'DtcRepository.kt', icon: '🔍', description: 'DTC data access' },
+                                        { name: 'VehicleRepository.kt', icon: '🚙', description: 'Vehicle data' }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'features/',
+                    icon: '⚡',
+                    description: 'Feature Modules',
+                    class: 'layer-business',
+                    children: [
+                        {
+                            name: 'dtc/',
+                            icon: '🔴',
+                            description: 'DTC Reading Feature',
+                            children: [
+                                { name: 'DtcViewModel.kt', icon: '🎯', description: 'DTC UI logic' },
+                                { name: 'DtcUiState.kt', icon: '📱', description: 'UI state model' }
+                            ]
+                        },
+                        {
+                            name: 'live/',
+                            icon: '📊',
+                            description: 'Live Data Feature',
+                            children: [
+                                { name: 'LiveDataViewModel.kt', icon: '📡', description: 'Live data streaming' },
+                                { name: 'LiveChartRenderer.kt', icon: '📈', description: 'Chart rendering' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'hardware/',
+                    icon: '🔌',
+                    description: 'Hardware Integration',
+                    class: 'layer-hardware',
+                    children: [
+                        {
+                            name: 'transport/',
+                            icon: '🛰️',
+                            description: 'Physical Connections',
+                            children: [
+                                { name: 'Port.kt', icon: '🔌', description: 'Abstract port interface' },
+                                { name: 'BluetoothPort.kt', icon: '📶', description: 'Bluetooth RFCOMM' },
+                                { name: 'UsbSerialPort.kt', icon: '🔌', description: 'USB OTG serial' },
+                                { name: 'TcpPort.kt', icon: '🌐', description: 'Wi-Fi/TCP connection' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'protocols/',
+                    icon: '🛰️',
+                    description: 'Diagnostic Protocols',
+                    class: 'layer-hardware',
+                    children: [
+                        {
+                            name: 'obd/',
+                            icon: '🚗',
+                            description: 'OBD-II Standard',
+                            children: [
+                                { name: 'ObdInterface.kt', icon: '🔧', description: 'OBD command interface' },
+                                { name: 'Elm327.kt', icon: '📟', description: 'ELM327 adapter logic' },
+                                { name: 'PidParser.kt', icon: '🔍', description: 'Parse PID responses' },
+                                { name: 'DtcParser.kt', icon: '🔴', description: 'Parse DTC codes' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'security/',
+                    icon: '🔐',
+                    description: 'Security Module',
+                    class: 'layer-system',
+                    children: [
+                        { name: 'ThreatModel.md', icon: '⚠️', description: 'Threat analysis' },
+                        { name: 'SecurityPolicy.kt', icon: '🔒', description: 'Security rules' }
+                    ]
+                },
+                {
+                    name: 'updates/',
+                    icon: '🔄',
+                    description: 'Update System',
+                    class: 'layer-system',
+                    children: [
+                        { name: 'UpdateChecker.kt', icon: '🔍', description: 'Check for updates' },
+                        { name: 'DataVersion.kt', icon: '📌', description: 'Version management' }
+                    ]
+                },
+                {
+                    name: 'docs/',
+                    icon: '📚',
+                    description: 'Documentation',
+                    children: [
+                        { name: 'architecture.md', icon: '🏗️', description: 'Architecture overview' },
+                        { name: 'roadmap.md', icon: '🗺️', description: 'Development roadmap' },
+                        { name: 'adr/', icon: '📝', description: 'Architecture decisions' }
+                    ]
+                },
+                {
+                    name: 'prompts/',
+                    icon: '🤖',
+                    description: 'AI Agent Prompts',
+                    children: [
+                        { name: 'ui-agent-start.md', icon: '🎨', description: 'UI agent instructions' },
+                        { name: 'data-agent-start.md', icon: '💾', description: 'Data agent instructions' },
+                        { name: 'protocols-agent-start.md', icon: '🛰️', description: 'Protocol agent instructions' }
+                    ]
+                },
+                {
+                    name: 'scripts/',
+                    icon: '⚙️',
+                    description: 'Automation Scripts',
+                    children: [
+                        { name: 'verify-local.sh', icon: '✅', description: 'Pre-PR checks' },
+                        { name: 'run-tests.sh', icon: '🧪', description: 'Test runner' },
+                        { name: 'format-code.sh', icon: '✨', description: 'Code formatter' }
+                    ]
+                }
+            ]
+        };
+        
+        function renderTree(node, parent, level = 0) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'tree-node';
+            
+            const item = document.createElement('div');
+            item.className = `tree-item ${node.class || ''}`;
+            item.innerHTML = `
+                <span class="icon">${node.icon}</span>
+                <span class="name">${node.name}</span>
+                <span class="description">${node.description}</span>
+            `;
+            
+            if (node.children && node.children.length > 0) {
+                const childrenDiv = document.createElement('div');
+                childrenDiv.className = 'children';
+                
+                item.onclick = function(e) {
+                    e.stopPropagation();
+                    childrenDiv.classList.toggle('visible');
+                    item.classList.toggle('expanded');
+                };
+                
+                node.children.forEach(child => {
+                    renderTree(child, childrenDiv, level + 1);
+                });
+                
+                itemDiv.appendChild(item);
+                itemDiv.appendChild(childrenDiv);
+            } else {
+                itemDiv.appendChild(item);
+            }
+            
+            parent.appendChild(itemDiv);
+        }
+        
+        function expandAll() {
+            document.querySelectorAll('.children').forEach(el => {
+                el.classList.add('visible');
+            });
+            document.querySelectorAll('.tree-item').forEach(el => {
+                el.classList.add('expanded');
+            });
+        }
+        
+        function collapseAll() {
+            document.querySelectorAll('.children').forEach(el => {
+                el.classList.remove('visible');
+            });
+            document.querySelectorAll('.tree-item').forEach(el => {
+                el.classList.remove('expanded');
+            });
+        }
+        
+        // Render tree on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('tree');
+            renderTree(treeData, container);
+        });
+    </script>
+</body>
+</html>
